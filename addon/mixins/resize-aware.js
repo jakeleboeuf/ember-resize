@@ -38,7 +38,7 @@ export default Mixin.create({
   debouncedDidResize(/*width, height, evt*/) {}, // Overridden in subclass
 
   _getComponentSize() {
-    return this.$()[0].getClientRects()[0];
+    return this.$()[0].getClientRects().length ? this.$()[0].getClientRects()[0] : 0;
   },
 
   _handleResizeEvent(evt) {
