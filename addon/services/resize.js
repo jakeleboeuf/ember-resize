@@ -57,25 +57,33 @@ export default Base.extend(Evented, {
   },
 
   _installResizeListener() {
-    window.addEventListener('resize', this._onResizeHandler);
+    if (!process.env.EMBER_CLI_FASTBOOT) {
+      window.addEventListener('resize', this._onResizeHandler);
+    }
   },
 
   _uninstallResizeListener() {
-    window.removeEventListener('resize', this._onResizeHandler);
+    if (!process.env.EMBER_CLI_FASTBOOT) {
+      window.removeEventListener('resize', this._onResizeHandler);
+    }
   },
 
   _fireResizeNotification(evt) {
-    const { innerWidth, innerHeight } = window;
-    if (this._hasWindowSizeChanged(innerWidth, innerHeight)) {
-      this.trigger('didResize', evt);
-      this._updateCachedWindowSize(innerWidth, innerHeight);
+    if (!process.env.EMBER_CLI_FASTBOOT) {
+      const { innerWidth, innerHeight } = window;
+      if (this._hasWindowSizeChanged(innerWidth, innerHeight)) {
+        this.trigger('didResize', evt);
+        this._updateCachedWindowSize(innerWidth, innerHeight);
+      }
     }
   },
   _fireDebouncedResizeNotification(evt) {
-    const { innerWidth, innerHeight } = window;
-    if (this._hasWindowSizeChanged(innerWidth, innerHeight, true)) {
-      this.trigger('debouncedDidResize', evt);
-      this._updateCachedWindowSize(innerWidth, innerHeight, true);
+    if (!process.env.EMBER_CLI_FASTBOOT) {
+      const { innerWidth, innerHeight } = window;
+      if (this._hasWindowSizeChanged(innerWidth, innerHeight, true)) {
+        this.trigger('debouncedDidResize', evt);
+        this._updateCachedWindowSize(innerWidth, innerHeight, true);
+      }
     }
   }
 });
