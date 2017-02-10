@@ -57,19 +57,19 @@ export default Base.extend(Evented, {
   },
 
   _installResizeListener() {
-    if (!process.env.EMBER_CLI_FASTBOOT) {
+    if (typeof document !== 'undefined') {
       window.addEventListener('resize', this._onResizeHandler);
     }
   },
 
   _uninstallResizeListener() {
-    if (!process.env.EMBER_CLI_FASTBOOT) {
+    if (typeof document !== 'undefined') {
       window.removeEventListener('resize', this._onResizeHandler);
     }
   },
 
   _fireResizeNotification(evt) {
-    if (!process.env.EMBER_CLI_FASTBOOT) {
+    if (typeof document !== 'undefined') {
       const { innerWidth, innerHeight } = window;
       if (this._hasWindowSizeChanged(innerWidth, innerHeight)) {
         this.trigger('didResize', evt);
@@ -78,7 +78,7 @@ export default Base.extend(Evented, {
     }
   },
   _fireDebouncedResizeNotification(evt) {
-    if (!process.env.EMBER_CLI_FASTBOOT) {
+    if (typeof document !== 'undefined') {
       const { innerWidth, innerHeight } = window;
       if (this._hasWindowSizeChanged(innerWidth, innerHeight, true)) {
         this.trigger('debouncedDidResize', evt);
